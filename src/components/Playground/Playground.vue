@@ -166,7 +166,6 @@ export default {
         }
       });
       if (requestData) {
-        if (method === 'post' || method === 'put' || method === 'patch') {
           const headers = this.headers || {
             'Content-Type': 'application/json',
             ...(this.bearerToken ? { 'Authorization': `Bearer ${this.bearerToken}` } : {}),
@@ -175,11 +174,9 @@ export default {
             headers,
             body: JSON.stringify(requestData),
           });
-        } else {
           let searchParams = new URLSearchParams(requestData).toString();
           if (searchParams !== '') searchParams = `?${searchParams}`;
           url = `${url}${searchParams}`;
-        }
       }
       return {
         url,
