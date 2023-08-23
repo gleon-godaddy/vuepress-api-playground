@@ -114,6 +114,11 @@ export default {
       required: false,
       default: null,
     },
+    bearerToken: {
+      type: String,
+      required: false,
+      default: null,
+    }
   },
   mounted() {
     this.inputData = [...this.data];
@@ -164,6 +169,7 @@ export default {
         if (method === 'post' || method === 'put' || method === 'patch') {
           const headers = this.headers || {
             'Content-Type': 'application/json',
+            ...(this.bearerToken ? { 'Authorization': `Bearer ${this.bearerToken}` } : {}),
           };
           data = Object.assign(data, {
             headers,
