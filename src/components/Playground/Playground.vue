@@ -166,17 +166,26 @@ export default {
         }
       });
       if (requestData) {
+        if (method === 'post' || method === 'put' || method === 'patch') {
           const headers = this.headers || {
-            'Content-Type': 'application/json',
-            ...(this.bearerToken ? { 'Authorization': `Bearer ${this.bearerToken}` } : {}),
+            'Content-Type': 'application/json'
           };
           data = Object.assign(data, {
             headers,
             body: JSON.stringify(requestData),
           });
+        } else {
+          const headers = {
+            'Content-Type': 'application/json',
+            ...(this.bearerToken ? { 'Authorization': `Bearer ${this.bearerToken}` } : {}),
+          };
+          data = Object.assign(data, {
+            headers,
+          });
           let searchParams = new URLSearchParams(requestData).toString();
           if (searchParams !== '') searchParams = `?${searchParams}`;
           url = `${url}${searchParams}`;
+        }
       }
       return {
         url,
